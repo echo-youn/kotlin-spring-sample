@@ -7,11 +7,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 class UserRepositoryImpl(
     private val jpaQueryFactory: JPAQueryFactory
 ): UserRepositoryCustom {
-    override fun somethingSpecial(id: Long): UserEntity? {
+    override fun somethingSpecial(id: List<Long>): List<UserEntity> {
         val user = QUserEntity.userEntity
         return jpaQueryFactory
             .selectFrom(user)
-            .where(user.id.eq(id))
-            .fetchOne()
+            .where(user.id.`in`(id))
+            .fetch()
     }
 }
