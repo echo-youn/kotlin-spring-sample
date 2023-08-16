@@ -1,6 +1,7 @@
 package com.example.hexarch.layered.user
 
 import com.example.hexarch.entity.UserEntity
+import com.example.hexarch.service.User2Service
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -13,17 +14,21 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class UserController(
-    private val userService: UserService
+    private val userService: UserService,
+    private val user2Service: User2Service
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+
+    @GetMapping("/java/user")
+    fun test(): UserEntity {
+        return user2Service.a()
+    }
+
     @GetMapping("/user")
     fun getUser(
         @RequestParam
         id: Long
     ): ResponseEntity<UserEntity> = userService.readUser(id)?.let {
-        val latency = (Math.random() * 10_000).toLong()
-        logger.info("latency: $latency")
-        Thread.sleep(latency)
         ResponseEntity.ok(it)
     } ?: ResponseEntity.noContent().build()
 
