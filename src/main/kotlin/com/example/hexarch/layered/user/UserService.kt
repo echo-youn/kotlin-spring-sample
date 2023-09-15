@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class UserService(
     private val userRepository: UserRepository,
+    private val userMemoryRepository: UserMemoryRepository,
     private val kafkaService: KafkaService
 ) {
     fun createUser(user: UserEntity): UserEntity = userRepository.save(user)
@@ -31,4 +32,8 @@ class UserService(
 
     @Transactional(readOnly = true)
     fun getAllUsers(): List<UserEntity> = userRepository.findAll()
+
+    fun findMemUsers(): List<UserEntity> = userMemoryRepository.readAll()
+
+    fun writeMemUser(u: UserEntity): UserEntity = userMemoryRepository.write(u)
 }

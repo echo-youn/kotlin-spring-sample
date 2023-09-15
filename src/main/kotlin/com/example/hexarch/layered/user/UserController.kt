@@ -64,4 +64,13 @@ class UserController(
                 ResponseEntity.ok(it)
             } ?: ResponseEntity.internalServerError().build()
     }
+
+    @GetMapping("/mem/users")
+    fun getmemUser(): List<UserEntity> = userService.findMemUsers()
+
+    @PostMapping("/mem/user")
+    fun writeMemUser(
+        @RequestBody
+        user: UserEntity
+    ): UserEntity = userService.writeMemUser(user)
 }
