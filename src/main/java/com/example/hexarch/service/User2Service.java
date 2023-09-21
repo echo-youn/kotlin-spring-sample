@@ -12,7 +12,6 @@ public class User2Service {
         this.userRepository = userRepository;
     }
 
-
     public UserEntity a() {
         return userRepository.getUserById(1);
     }
