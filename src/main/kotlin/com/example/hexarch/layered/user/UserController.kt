@@ -32,6 +32,7 @@ class UserController(
         ResponseEntity.ok(it)
     } ?: ResponseEntity.noContent().build()
 
+    // Not Join
     @GetMapping("/users")
     fun getAllUsers(
         @RequestParam(required = false) // 추가 tip.
@@ -41,6 +42,28 @@ class UserController(
     } else {
         userService.special(id)
     }
+
+    // N + 1
+    @GetMapping("/users2")
+    fun getAllUsers2(
+        @RequestParam(required = false) // 추가 tip.
+        id: List<Long>?
+    ): List<UserDto> = (if (id.isNullOrEmpty()) {
+        userService.getAllUsers()
+    } else {
+        userService.special(id)
+    }).map(UserEntity::toDto)
+
+    // Eager
+    @GetMapping("/users3")
+    fun getAllUsers3(
+        @RequestParam(required = false) // 추가 tip.
+        id: List<Long>?
+    ): List<UserDto> = if (id.isNullOrEmpty()) {
+        userService.getAllUsers()
+    } else {
+        userService.special2(id)
+    }.map(UserEntity::toDto)
 
     @PostMapping("/user")
     fun createUser(

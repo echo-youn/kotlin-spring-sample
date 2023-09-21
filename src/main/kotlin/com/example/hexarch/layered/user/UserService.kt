@@ -30,6 +30,8 @@ class UserService(
 
     fun special(id: List<Long>) = userRepository.somethingSpecial(id)
 
+    fun special2(id: List<Long>) = userRepository.userWithGames(id)
+
     @Transactional(readOnly = true)
     fun getAllUsers(): List<UserEntity> = userRepository.findAll()
 
