@@ -28,9 +28,10 @@ class UserService(
     fun deleteUser(user: UserEntity): UserEntity? = userRepository.getUserById(user.id)
         ?.also { userRepository.delete(it) }
 
-    fun special(id: List<Long>) = userRepository.somethingSpecial(id)
+    fun special(id: List<Long>): List<UserEntity> = userRepository.somethingSpecial(id)
 
-    fun special2(id: List<Long>) = userRepository.userWithGames(id)
+    @Transactional(readOnly = true)
+    fun special2(id: List<Long>): List<UserEntity> = userRepository.userWithGames(id)
 
     @Transactional(readOnly = true)
     fun getAllUsers(): List<UserEntity> = userRepository.findAll()
