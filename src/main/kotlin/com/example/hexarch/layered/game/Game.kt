@@ -1,7 +1,6 @@
 package com.example.hexarch.layered.game
 
 import com.example.hexarch.entity.UserEntity
-import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType

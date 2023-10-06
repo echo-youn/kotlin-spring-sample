@@ -4,7 +4,7 @@ import com.example.hexarch.entity.UserEntity
 import org.springframework.data.repository.Repository
 
 @org.springframework.stereotype.Repository
-class UserMemoryRepository: Repository<UserEntity, Long> {
+class UserMemoryRepository : Repository<UserEntity, Long> {
     // Not Thread-safe
     private val store: MutableMap<Long, UserEntity> = mutableMapOf()
 

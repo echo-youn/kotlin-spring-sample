@@ -7,7 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 
 class UserRepositoryImpl(
     private val jpaQueryFactory: JPAQueryFactory
-): UserRepositoryCustom {
+) : UserRepositoryCustom {
     override fun somethingSpecial(id: List<Long>): List<UserEntity> {
         val user = QUserEntity.userEntity
         return jpaQueryFactory

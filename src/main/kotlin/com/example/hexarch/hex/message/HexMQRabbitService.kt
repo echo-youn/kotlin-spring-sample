@@ -3,14 +3,17 @@ package com.example.hexarch.hex.message
 import com.example.hexarch.hex.message.usecase.MessageUseCase
 import org.springframework.stereotype.Service
 
+private const val TEN = 10L
+private const val HUNDRED = 100L
+
 @Service
-class HexMQRabbitService: MessageUseCase{
+class HexMQRabbitService : MessageUseCase {
     override fun sendMessage() {
         mqRabbit()
-        Thread.sleep(10)
+        Thread.sleep(TEN)
     }
 
     fun mqRabbit() {
-        Thread.sleep(100)
+        Thread.sleep(HUNDRED)
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 @Service
 class HexUserService(
     private val userRepository: UserRepository
-): EntityDefaultUseCase<UserEntity, Long> {
+) : EntityDefaultUseCase<UserEntity, Long> {
     override fun createEntity(entity: UserEntity): UserEntity? = userRepository.save(entity)
 
     override fun readEntityById(id: Long): UserEntity? {

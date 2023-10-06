@@ -11,10 +11,10 @@ import jakarta.persistence.ManyToMany
 import lombok.EqualsAndHashCode
 import lombok.ToString
 
+// data class는 spring jpa에서 비추천함.
 @Entity
 @ToString
 @EqualsAndHashCode
-// data class는 spring jpa에서 비추천함.
 class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,6 +9,7 @@ plugins {
     kotlin("plugin.jpa") version "1.9.10"
     // querydsl
     kotlin("kapt") version "1.9.10"
+    id("io.gitlab.arturbosch.detekt").version("1.23.1")
 }
 
 group = "com.example"
@@ -47,6 +48,9 @@ dependencies {
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
     annotationProcessor("jakarta.annotation:jakarta.annotation-api")
     annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+
+    // ktlint plugin
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.1")
 }
 
 tasks.withType<KotlinCompile> {
@@ -58,4 +62,17 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+detekt {
+    config.setFrom("$projectDir/config/detekt.yml")
+    baseline = file("$projectDir/config/baseline.xml")
+    // detekt version setting
+    configurations.all {
+        resolutionStrategy.eachDependency {
+            if (requested.group == "org.jetbrains.kotlin") {
+                useVersion("1.9.0")
+            }
+        }
+    }
 }

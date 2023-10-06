@@ -3,11 +3,13 @@ package com.example.hexarch.hex.message
 import com.example.hexarch.hex.message.usecase.MessageUseCase
 import org.springframework.stereotype.Service
 
+private const val TEN = 10L
+
 @Service
-class HexKafkaService: MessageUseCase {
+class HexKafkaService : MessageUseCase {
     override fun sendMessage() {
         doSomethingInKafka()
-        Thread.sleep(10)
+        Thread.sleep(TEN)
     }
 
     fun doSomethingInKafka() {
