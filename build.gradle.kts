@@ -38,7 +38,12 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        // mockkito의 MockBean, SpyBean 사용 안함.
+        exclude(module = "mockito-core")
+    }
+    // mockk
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
