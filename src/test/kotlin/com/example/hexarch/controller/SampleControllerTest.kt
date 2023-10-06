@@ -4,7 +4,10 @@ import com.example.hexarch.layered.game.GameController
 import com.example.hexarch.layered.game.GameService
 import com.ninjasquad.springmockk.MockkBean
 import com.ninjasquad.springmockk.SpykBean
+import io.mockk.every
+import io.mockk.slot
 import io.mockk.verify
+import io.mockk.verifySequence
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -32,9 +35,16 @@ class SampleControllerTest(
 
     @Test
     fun test() {
+        val ids = "1,2,3,4"
+        val capturedIds = slot<Set<Long>>()
+
+        every {
+            gameService.findGames(capture(capturedIds))
+        } returns emptyList()
+
         val result = mockMvc
             .perform(
-                get("/games").queryParam("ids", "1,2,3,4")
+                get("/games").queryParam("ids", ids)
             )
             .andExpect(status().isOk)
             .andExpect(jsonPath("$").exists())
@@ -50,7 +60,15 @@ class SampleControllerTest(
         println("result: $result")
 
         verify(exactly = 1) {
-            gameService.findGames(setOf(1, 2, 3, 4))
+            gameService.findGames(capturedIds.captured)
         }
+
+        verifySequence {
+            gameService.findGames(capturedIds.captured)
+        }
+
+        assert(ids.split(",").map {
+            it.toLong()
+        }.containsAll(capturedIds.captured))
     }
 }
