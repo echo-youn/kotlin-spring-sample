@@ -84,4 +84,9 @@ class UserController(
         @RequestBody
         user: UserEntity
     ): UserEntity = userService.writeMemUser(user)
+
+    @GetMapping("/proj/user/{userId}")
+    fun queryProjection(
+        @PathVariable userId: List<Long>
+    ): List<UserDto> = userService.projectionUsers(userId)
 }

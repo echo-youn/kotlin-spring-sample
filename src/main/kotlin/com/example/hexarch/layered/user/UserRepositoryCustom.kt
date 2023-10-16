@@ -6,4 +6,6 @@ interface UserRepositoryCustom {
     fun somethingSpecial(id: List<Long>): List<UserEntity>
 
     fun userWithGames(id: List<Long>): List<UserEntity>
+
+    fun projectionSample(id: List<Long>): List<UserDto>
 }

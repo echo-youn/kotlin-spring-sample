@@ -39,4 +39,7 @@ class UserService(
     fun findMemUsers(): List<UserEntity> = userMemoryRepository.readAll()
 
     fun writeMemUser(u: UserEntity): UserEntity = userMemoryRepository.write(u)
+
+    @Transactional(readOnly = true)
+    fun projectionUsers(ids: List<Long>): List<UserDto> = userRepository.projectionSample(ids)
 }
