@@ -3,7 +3,6 @@ package com.example.hexarch.controller
 import com.example.hexarch.layered.game.GameController
 import com.example.hexarch.layered.game.GameService
 import com.ninjasquad.springmockk.MockkBean
-import com.ninjasquad.springmockk.SpykBean
 import io.mockk.every
 import io.mockk.slot
 import io.mockk.verify
@@ -11,7 +10,6 @@ import io.mockk.verifySequence
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
@@ -20,12 +18,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import kotlin.reflect.jvm.javaMethod
 
+// security test 할때 필수
+// @WithMockUser
 @WebMvcTest(
     controllers = [
         GameController::class
     ]
 )
-// security test 할때 필수 @WithMockUser
 class SampleControllerTest(
     @Autowired private val mockMvc: MockMvc
 ) {
@@ -67,8 +66,10 @@ class SampleControllerTest(
             gameService.findGames(capturedIds.captured)
         }
 
-        assert(ids.split(",").map {
-            it.toLong()
-        }.containsAll(capturedIds.captured))
+        assert(
+            ids.split(",").map {
+                it.toLong()
+            }.containsAll(capturedIds.captured)
+        )
     }
 }

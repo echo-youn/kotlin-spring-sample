@@ -69,6 +69,11 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+// build task 실행 시 Plain Jar 생성하지 않음.
+tasks.named<Jar>("jar") {
+    enabled = false
+}
+
 detekt {
     config.setFrom("$projectDir/config/detekt.yml")
     baseline = file("$projectDir/config/baseline.xml")
