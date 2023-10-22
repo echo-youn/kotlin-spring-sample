@@ -7,10 +7,9 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     show-sql: true
     defer-datasource-initialization: true
-    open-in-view: false # Default true 이므로 신경써서 false 처리해주어야함.
   sql:
     init:
       mode: always

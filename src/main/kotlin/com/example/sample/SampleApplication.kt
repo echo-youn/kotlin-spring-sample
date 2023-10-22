@@ -1,11 +1,11 @@
-package com.example.hexarch
+package com.example.sample
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class HexArchApplication
+class SampleApplication
 
 fun main(args: Array<String>) {
-    runApplication<HexArchApplication>(*args)
+    runApplication<SampleApplication>(*args)
 }

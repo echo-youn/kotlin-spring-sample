@@ -1,4 +1,4 @@
-package com.example.hexarch
+package com.example.sample.config
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager

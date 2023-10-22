@@ -1,1 +1,1 @@
-rootProject.name = "hexArch"
+rootProject.name = "kotlin-spring-sample"

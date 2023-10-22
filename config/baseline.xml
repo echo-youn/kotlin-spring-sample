@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <SmellBaseline>
   <ManuallySuppressedIssues>
-    <ID>SpreadOperator:HexArchApplication.kt$(*args)</ID>
+    <ID>SpreadOperator:SampleApplication.kt$(*args)</ID>
   </ManuallySuppressedIssues>
   <CurrentIssues>
   </CurrentIssues>
