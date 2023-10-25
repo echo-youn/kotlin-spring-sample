@@ -33,6 +33,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -54,6 +55,9 @@ dependencies {
 
     // ktlint plugin
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.1")
+    // jasypt
+    implementation("org.bouncycastle:bcprov-jdk18on:1.72") // for argon2 encoder
+    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
 }
 
 tasks.withType<KotlinCompile> {
