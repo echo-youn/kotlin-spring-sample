@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<SmellBaseline>
-  <ManuallySuppressedIssues>
-    <ID>SpreadOperator:SampleApplication.kt$(*args)</ID>
-  </ManuallySuppressedIssues>
-  <CurrentIssues>
-  </CurrentIssues>
-</SmellBaseline>
