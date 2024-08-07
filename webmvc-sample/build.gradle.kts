@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.example"
-version = "0.0.1-SNAPSHOT"
+version = ""
 
 java {
     toolchain {
@@ -50,4 +50,12 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.withType(Jar::class.java).named("jar") {
+    enabled = false
+}
+
+tasks.withType(Jar::class.java).named("bootJar") {
+    enabled = true
 }
