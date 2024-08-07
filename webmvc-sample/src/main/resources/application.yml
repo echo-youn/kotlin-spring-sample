@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: webmvc-sample
+
+server:
+  servlet:
+    context-path: /
+
+my-property:
+  a: a
+  b: 2s
