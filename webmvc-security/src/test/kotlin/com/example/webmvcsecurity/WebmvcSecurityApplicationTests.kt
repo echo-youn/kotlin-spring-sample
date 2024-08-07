@@ -1,13 +1,13 @@
 package com.example.webmvcsecurity
 
+import org.h2.server.web.WebServer
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
 class WebmvcSecurityApplicationTests {
 
     @Test
     fun contextLoads() {
+        println(WebServer.encodeAdminPassword("password123123"))
     }
 
 }

@@ -9,12 +9,24 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: embedded
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
   h2:
     console:
       enabled: true
       path: /h2
       settings:
         web-allow-others: true
-        web-admin-password: password
+        # password123123
+        web-admin-password: 929cacf55b5890df49fe0b8dc41c31ce609aad513be28ba19cbd997c56968f0e79ffc6ef74ed36dea08556f64002a25cd9aaab3715e4d3bc66fa133b89efd62a
+
+logging:
+  level:
+    web: debug
+    sql: debug
