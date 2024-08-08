@@ -4,11 +4,21 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
+import org.springframework.http.HttpStatus
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.ProviderManager
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
 import org.springframework.security.config.annotation.web.invoke
+import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.HttpStatusEntryPoint
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 class SecurityConfiguration {
@@ -17,15 +27,27 @@ class SecurityConfiguration {
     // security filter setting with httpSecurity(exposed by enabled security)
     @Order(1)
     @Bean
-    fun securedFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
+    fun securedFilterChain(
+        httpSecurity: HttpSecurity,
+        uds: UserDetailsService,
+        jwtTokenFilter: JWTTokenFilter,
+    ): SecurityFilterChain {
         httpSecurity {
             csrf { disable() }
+            formLogin { disable() }
+            httpBasic { disable() }
+            logout { deleteCookies("myCookie") }
+            sessionManagement {
+                sessionCreationPolicy = SessionCreationPolicy.STATELESS
+            }
+            addFilterBefore<UsernamePasswordAuthenticationFilter>(jwtTokenFilter)
 
-            // 분리하기
-            securityMatcher("/secured/**")
             authorizeHttpRequests {
+                authorize("/login", permitAll)
                 authorize(anyRequest, authenticated)
-//                authorize(anyRequest, hasRole("ADMIN"))
+            }
+            exceptionHandling {
+                authenticationEntryPoint = HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
             }
         }
         return httpSecurity.build()
@@ -52,4 +74,22 @@ class SecurityConfiguration {
             web.ignoring().requestMatchers(PathRequest.toH2Console())
         }
     }
+
+    // authentication manager로 authenticate 함
+    // 실패하면 entrypoint로
+    // 성공하면 고고
+    @Bean
+    fun authenticationManager(
+        userDetailsService: UserDetailsService,
+        passwordEncoder: PasswordEncoder,
+    ): AuthenticationManager {
+        val authenticationProvider = DaoAuthenticationProvider()
+        authenticationProvider.setUserDetailsService(userDetailsService)
+        authenticationProvider.setPasswordEncoder(passwordEncoder)
+
+        return ProviderManager(authenticationProvider)
+    }
+
+    @Bean
+    fun passwordEncoder(): PasswordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8()
 }
