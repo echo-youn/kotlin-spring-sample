@@ -1,9 +1,11 @@
 package com.example.webmvcsecurity
 
-import com.example.webmvcsecurity.JWTTokenFilter.AAA
+import com.example.webmvcsecurity.JWTTokenFilter.MyAuthenticationPrincipal
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.security.access.annotation.Secured
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -19,7 +21,7 @@ class SecurityController(
 ) {
     @GetMapping("/secured")
     fun secured(
-        @AuthenticationPrincipal authentication: AAA,
+        @AuthenticationPrincipal authentication: MyAuthenticationPrincipal,
     ) {
         val u = myUserRepository.findAll()
         println(authentication)
@@ -50,5 +52,52 @@ class SecurityController(
         }.onFailure {
             val a = "failed"
         }
+    }
+
+    /**
+     * @see com.example.webmvcsecurity.SecurityConfiguration:47
+     */
+    @GetMapping("/secured/admin")
+    fun pathMatcherAuthorizingOnlyAdmin(
+        @AuthenticationPrincipal authentication: MyAuthenticationPrincipal,
+    ) {
+        val u = myUserRepository.findAll()
+        println(authentication)
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/secured/admin2")
+    fun methodSecuredAuthorizingOnlyAdmin(
+        @AuthenticationPrincipal authentication: MyAuthenticationPrincipal,
+    ) {
+        val u = myUserRepository.findAll()
+        println(authentication)
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/secured/admin3")
+    fun methodPreAuthAuthorizingOnlyAdmin(
+        @AuthenticationPrincipal authentication: MyAuthenticationPrincipal,
+    ) {
+        val u = myUserRepository.findAll()
+        println(authentication)
+    }
+
+    @Secured("ROLE_USER")
+    @GetMapping("/secured/user")
+    fun userOnlyButHierarchy(
+        @AuthenticationPrincipal authentication: MyAuthenticationPrincipal,
+    ) {
+        val u = myUserRepository.findAll()
+        println(authentication)
+    }
+
+    @Secured("ROLE_WIRED")
+    @GetMapping("/secured/wired")
+    fun wiredOnlyButHierarchy(
+        @AuthenticationPrincipal authentication: MyAuthenticationPrincipal,
+    ) {
+        val u = myUserRepository.findAll()
+        println(authentication)
     }
 }

@@ -29,7 +29,8 @@ class JWTTokenFilter(
 
         if (token != null) {
             val u = userDetailsService.loadUserByUsername(token)
-            SecurityContextHolder.getContext().authentication = AAA(
+            u.authorities
+            SecurityContextHolder.getContext().authentication = MyAuthenticationPrincipal(
                 u.username,
                 u.password,
                 u.authorities.toMutableList(),
@@ -39,17 +40,21 @@ class JWTTokenFilter(
         filterChain.doFilter(request, response)
     }
 
-    data class AAA(
+    data class MyAuthenticationPrincipal(
         val username: String,
         val password: String,
         val auths: List<GrantedAuthority>,
         val isAuth: Boolean,
     ) : AbstractAuthenticationToken(auths) {
+        override fun getName(): String {
+            return username
+        }
+
         override fun getCredentials(): String {
             return password
         }
 
-        override fun getPrincipal(): AAA {
+        override fun getPrincipal(): MyAuthenticationPrincipal {
             return this
         }
 

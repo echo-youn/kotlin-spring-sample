@@ -5,6 +5,10 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.ProviderManager
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
@@ -19,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.HttpStatusEntryPoint
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+
 
 @Configuration
 class SecurityConfiguration {
@@ -44,6 +49,7 @@ class SecurityConfiguration {
 
             authorizeHttpRequests {
                 authorize("/login", permitAll)
+                authorize("/secured/admin", hasRole("ADMIN"))
                 authorize(anyRequest, authenticated)
             }
             exceptionHandling {
@@ -92,4 +98,21 @@ class SecurityConfiguration {
 
     @Bean
     fun passwordEncoder(): PasswordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8()
+
+    @Bean
+    fun roleHierarchy(): RoleHierarchy {
+        return RoleHierarchyImpl.withDefaultRolePrefix()
+            .role("ADMIN").implies("STAFF")
+            .role("STAFF").implies("USER")
+            .role("USER").implies("GUEST")
+            .build()
+    }
+
+    // and, if using pre-post method security also add
+    @Bean
+    fun methodSecurityExpressionHandler(roleHierarchy: RoleHierarchy?): MethodSecurityExpressionHandler {
+        val expressionHandler = DefaultMethodSecurityExpressionHandler()
+        expressionHandler.setRoleHierarchy(roleHierarchy)
+        return expressionHandler
+    }
 }
