@@ -40,3 +40,8 @@
 
 - encodePassword
 - webSecurity ignore...
+
+
+# References
+- https://github.com/ali-bouali/spring-boot-3-jwt-security
+- https://docs.spring.io/spring-security/reference/whats-new.html
