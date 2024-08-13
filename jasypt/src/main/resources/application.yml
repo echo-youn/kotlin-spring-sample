@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: jasypt
+
+app:
+  message: ENC(+3GqbUfEbojy1JqVvub9GPk/2OmAXHl75PPtVNdoE16qLjjbLh+WIaVhcIXDbpjG)
+
+jasypt:
+  encryptor:
+    password: strongpassword123fdsafdasasdfafsdsdafdfsasdaffsdasdafsadfsdafdsfadafstrongpassword123fdsafdasasdfafsdsdafdfsasdaffsdasdafsadfsdafdsfadaf
