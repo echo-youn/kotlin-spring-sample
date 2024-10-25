@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: mongo-crwal
+  docker:
+    compose:
+      file: mongo-crwal/compose.yaml
+      stop:
+        command: stop
+  data:
+    mongodb:
+      auto-index-creation: true
+      host: localhost:27017
+      additional-hosts:
+        - localhost:27017

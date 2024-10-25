@@ -14,3 +14,7 @@
 11. TransactionalEvent
 12. Slice, Page, Window
 13. Envers
+
+# hibernate config
+1. slow_query_log
+2. 
