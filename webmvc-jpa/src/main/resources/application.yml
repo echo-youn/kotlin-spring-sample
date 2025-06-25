@@ -25,8 +25,15 @@ spring:
         web-allow-others: true
         # password123123
         web-admin-password: 929cacf55b5890df49fe0b8dc41c31ce609aad513be28ba19cbd997c56968f0e79ffc6ef74ed36dea08556f64002a25cd9aaab3715e4d3bc66fa133b89efd62a
+  security:
+    user:
+      name: user
+      password: password
 
 logging:
   level:
     web: debug
     sql: debug
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction: DEBUG
+
