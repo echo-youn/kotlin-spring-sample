@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: webflux-security
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/webflux-security
+    username: postgres
+    password:
