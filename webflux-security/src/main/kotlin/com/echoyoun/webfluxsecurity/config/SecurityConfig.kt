@@ -4,12 +4,17 @@ import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
+import org.springframework.security.access.PermissionEvaluator
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.ProviderManager
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder
 import org.springframework.security.config.web.server.ServerHttpSecurity
@@ -33,6 +38,8 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebFluxSecurity
+@EnableReactiveMethodSecurity
+//@EnableMethodSecurity(prePostEnabled = true)
 class SecurityConfig {
     val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -108,5 +115,14 @@ class SecurityConfig {
 //            addFilterAt(MySecurityFilter(), SecurityWebFiltersOrder.AUTHORIZATION)
             addFilterAt(MySecurityFilter(myAuthenticationManager), SecurityWebFiltersOrder.AUTHENTICATION)
         }
+    }
+
+    @Bean
+    fun methodSecurityExpressionHandler2(
+        p: PermissionEvaluator,
+    ): MethodSecurityExpressionHandler {
+        val d = DefaultMethodSecurityExpressionHandler()
+        d.setPermissionEvaluator(p)
+        return d
     }
 }

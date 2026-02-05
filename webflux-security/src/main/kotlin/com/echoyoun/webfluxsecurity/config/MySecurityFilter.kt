@@ -2,6 +2,7 @@ package com.echoyoun.webfluxsecurity.config
 
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.ReactiveSecurityContextHolder
 import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebFilter
 import org.springframework.web.server.WebFilterChain
@@ -17,11 +18,11 @@ class MySecurityFilter(
         val path = exchange.request.uri
         val a = UsernamePasswordAuthenticationToken("user", "password", emptyList())
         authenticationManager.authenticate(a).block()
-        return chain.filter(exchange)
-//        return chain.filter(exchange).contextWrite {
-//            ReactiveSecurityContextHolder.withAuthentication(
-//                UsernamePasswordAuthenticationToken("user", "password", emptyList())
-//            )
-//        }
+//        return chain.filter(exchange)
+        return chain.filter(exchange).contextWrite {
+            ReactiveSecurityContextHolder.withAuthentication(
+                UsernamePasswordAuthenticationToken("user", "password", emptyList())
+            )
+        }
     }
 }
