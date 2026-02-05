@@ -16,6 +16,7 @@ object ENUMS {
 class MyUserService(
     private val myUserRepository: MyUserRepository,
 ) {
+    @PreAuthorize("hasPermission('abc', 'abc')")
     suspend fun findAll(): List<MyUserEntity> {
         return myUserRepository.findAll().toList()
     }

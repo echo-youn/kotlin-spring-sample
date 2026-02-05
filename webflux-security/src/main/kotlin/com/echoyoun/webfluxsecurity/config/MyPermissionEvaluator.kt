@@ -10,11 +10,19 @@ import java.io.Serializable
 class MyPermissionEvaluator: PermissionEvaluator {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
+    val permission = "user:read:1"
+    val permissionGroup = listOf("group:read:1", "cde")
+
     override fun hasPermission(
         authentication: Authentication,
         targetDomainObject: Any,
         permission: Any,
     ): Boolean {
+        "1:read:1"
+
+        if(authentication.name == permission) {
+            return true
+        }
         logger.info("authentication: $authentication")
         logger.info("targetDomainObject: $targetDomainObject")
         logger.info("permission: $permission")
@@ -22,11 +30,26 @@ class MyPermissionEvaluator: PermissionEvaluator {
     }
 
     override fun hasPermission(
-        authentication: Authentication,
-        targetId: Serializable,
-        targetType: String,
-        permission: Any
+        authentication: Authentication, // user: 1, credentials: apikey
+        targetId: Serializable, // 1번
+        targetType: String, // MyUserEntity
+        permission: Any // "user:read, credentials:read"
     ): Boolean {
+        val target = "1"
+        val action = "read"
+        val user = "user"
+
+        val groups = listOf("groups1", "groups2")
+        "groups1:read:1"
+
+        if ("${authentication.name}:$targetType:$targetId" == permission) {
+            return true
+        }
+
+        if (permissionGroup.contains(permission)) {
+            return true
+        }
+
         logger.info("authentication: $authentication")
         logger.info("targetId: $targetId")
         logger.info("targetType: $targetType")
