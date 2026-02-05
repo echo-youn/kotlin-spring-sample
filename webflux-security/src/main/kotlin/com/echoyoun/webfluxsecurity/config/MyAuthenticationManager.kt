@@ -25,7 +25,7 @@ class MyAuthenticationManager(
         authentication: Mono<Authentication>,
         `object`: AuthorizationContext,
     ): Mono<AuthorizationResult> {
-        val a = AuthorizationDecision(false)
+        val a = AuthorizationDecision(true)
         return Mono.just(a)
     }
 }
